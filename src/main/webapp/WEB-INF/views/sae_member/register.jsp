@@ -46,6 +46,29 @@
 		}
 			var Birth = $("#year").val()+month+day;
 			$("#userBirth").val(Birth);
+			var year = $("#year").val();// 2015를 선택
+			var now = new Date(); //현재 날짜 및 시간 2022
+			var cur_year = now.getFullYear(); //연도 //현재나이 8살 now - year + 1
+			if(cur_year - year + 1 < 6)
+			{
+				$("#type").text("미취학 회원입니다.");
+			}
+			else if(cur_year - year + 1 < 14)
+			{
+				$("#type").text("어린이 회원입니다.");
+			}
+			else if(cur_year - year + 1 < 25)
+			{
+				$("#type").text("청소년 회원입니다.");
+			}
+			else if(cur_year - year + 1 < 65)
+			{
+				$("#type").text("성인 회원입니다.");
+			}
+			else
+			{
+				$("#type").text("노인 회원입니다.")		
+			}
 		})
 		$("#month").on("change", function(){
 			var month = $("#month").val();
@@ -74,6 +97,25 @@
 		}
 			var Birth3 = $("#year").val()+month+day;
 			$("#userBirth").val(Birth3);
+		})
+		$("#userId").on("keyup", function(){
+			var xhr = new XMLHttpRequest();
+			
+			xhr.open("GET", "http://localhost:8080/saeha/over?userId="+$("#userId").val(), true);
+			xhr.send();
+			
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200){
+					$("#over1").text(xhr.responseText);
+					
+					var over1 = xhr.responseText;
+					if(over1 == " 사용할 수 있는 ID입니다."){
+						$("#over1").attr("style", "color:#3333FF");
+					}else{
+						$("#over1").attr("style", "color:#FF0099");
+					}
+				}
+			}
 		})
 		$("#userPass").on("keyup", function(){
 			if($("#userPass").val() == $("#userPass2").val()){
@@ -136,7 +178,7 @@
 	<section id="container">
 		<form action="/saeha/sae_member/register" method="post">
 			<div class="form-group has-feedback">
-				<label class="control-label" for="userId">아이디</label> <input
+				<label class="control-label" for="userId">아이디</label><span id="over1">&nbsp;&nbsp;&nbsp;</span><input
 					class="form-control" type="text" id="userId" name="userId" />
 			</div>
 			<div class="form-group has-feedback">
@@ -189,7 +231,9 @@
 				<input class="form-control" type="text" id="userBirth"
 					name="userBirth" readonly/>
 			</div>
-			<div class="form-group has-feedback">
+			<div id="type" name="type">
+			</div>
+			<div class="form-group has-feedback" style="margin-top:8px">
 				<label class="control-label" for="userTel">전화번호</label> <input
 					class="form-control" type="tel"  id="userTel" name="userTel" 
 					pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-0000-0000"

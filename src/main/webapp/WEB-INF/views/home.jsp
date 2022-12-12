@@ -23,6 +23,10 @@ $(document).ready(function(){
 	$("#memberUpdateBtn").on("click",function(){
 		location.href="sae_member/memberUpdateView";
 	})
+	
+	$("#findPassBtn").on("click",function(){
+		location.href="sae_member/findPass";
+	})
 });
 </script>
 <body>
@@ -39,6 +43,7 @@ $(document).ready(function(){
 <div>
 <button type="submit">로그인</button>
 <button id="registerBtn" type="button">회원가입</button>
+<button id="findPassBtn" type="button">비밀번호 찾기</button>
 </div>
 </c:if>
 <c:if test="${member != null }">

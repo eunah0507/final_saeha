@@ -19,7 +19,18 @@
 $(document).ready(function(){
 	//취소
 	$(".cencle").on("click", function(){
-		location.href = "/";
+		location.href = "/saeha";
+	});
+	
+	$(".delete").on("click", function(){
+		
+		var result = confirm("정말 탈퇴하시겠습니까?");
+		if(result){
+			alert("이용해주셔서 감사합니다. 더 좋은 서비스로 찾아뵙겠습니다.");
+		location.href = "/saeha/sae_member/memberDelete?userId=" + $("#userId").val();
+		}else{
+			alert("앞으로 더 좋은 서비스로 보답하겠습니다.");
+		}
 	});
 	
 	$("#submit").on("click", function(){
@@ -29,9 +40,24 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		if($("#userName").val()==""){
-			alert("성명을 입력해 주세요");
-			$("#userName").focus();
+		if($("#userBirth").val()==""){
+			alert("생년월일을 입력해 주세요");
+			$("#userBirth").focus();
+			return false;
+		}
+		if($("#userTel").val()==""){
+			alert("전화번호를 입력해 주세요");
+			$("#userTel").focus();
+			return false;
+		}
+		if($("#userMail").val()==""){
+			alert("메일을 입력해 주세요");
+			$("#userMail").focus();
+			return false;
+		}
+		if($("#userAddress").val()==""){
+			alert("주소를 입력해 주세요");
+			$("#userAddress").focus();
 			return false;
 		}
 	});
@@ -39,22 +65,39 @@ $(document).ready(function(){
 </script>
 <body>
 <section id="container">
-<form action="/sae_member/memberUpdate" method="post">
+<form action="/saeha/sae_member/memberUpdate" method="post">
 <div class="form-group has-feedback">
 <label class="control-label" for="userId">아이디</label>
 <input class="form-control" type="text" id="userId" name="userId" value="${member.userId}" readonly="readonly">
 </div>
 <div class="form-group has-feedback">
 <label class="control-label" for="userPass">패스워드</label>
-<input class="form-control" type="password" id="userPass" name="userPass" />
+<input class="form-control" type="password" id="userPass" name="userPass" value="${member.userPass}"/>
 </div>
 <div class="form-group has-feedback">
 <label class="control-label" for="userName">성명</label>
-<input class="form-control" type="text" id="userName" name="userName" value="${member.userName}" />
+<input class="form-control" type="text" id="userName" name="userName" value="${member.userName}" readonly="readonly"/>
+</div>
+<div class="form-group has-feedback">
+<label class="control-label" for="userBirth">생년월일</label>
+<input class="form-control" type="text" id="userBirth" name="userBirth" value="${member.userBirth}" readonly="readonly"/>
+</div>
+<div class="form-group has-feedback">
+<label class="control-label" for="userTel">전화번호</label>
+<input class="form-control" type="text" id="userTel" name="userTel" value="${member.userTel}" />
+</div>
+<div class="form-group has-feedback">
+<label class="control-label" for="userMail">메일</label>
+<input class="form-control" type="text" id="userMail" name="userMail" value="${member.userMail}" />
+</div>
+<div class="form-group has-feedback">
+<label class="control-label" for="userAddress">주소</label>
+<input class="form-control" type="text" id="userAddress" name="userAddress" value="${member.userAddress}" />
 </div>
 <div class="form-group has-feedback">
 <button class="btn btn-success" type="submit" id="submit">회원정보수정</button>
 <button class="cencle btn btn-danger" type="button">목록 이동</button>
+<button class="delete" type="button" id="delete" name="delete">회원 탈퇴</button>
 </div>
 </form>
 </section>

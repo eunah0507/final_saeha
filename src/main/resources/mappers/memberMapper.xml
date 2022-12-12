@@ -22,16 +22,24 @@ INSERT INTO SAE_MEMBER(MEMBER_ID
                    , #{userAddress})
 </insert>
 
-<!-- 로그인 -->
-<!-- <select id="login" resultType="memberVO">
-SELECT MEMBER_ID, MEMBER_PW, MEMBER_NAME
+<!-- 회원가입시 ID 중복확인 + 비밀번호 찾을 때 아이디 유효한지 검사 -->
+<select id="over" resultType="String">
+SELECT MEMBER_ID AS userId 
+FROM SAE_MEMBER 
+WHERE MEMBER_ID = #{userId}
+</select>
+
+<!-- 비밀번호 찾기시 ID에서 ID, 이름, MAIL 추출 -->
+<select id="findfind" resultType="memberVO">
+SELECT MEMBER_ID AS userId, MEMBER_NAME AS userName, MEMBER_MAIL AS userMail
 FROM SAE_MEMBER
 WHERE MEMBER_ID = #{userId}
-AND MEMBER_PW = #{userPass}
-</select> -->
+</select>
 
+<!-- 로그인 -->
 <select id="login" resultType="memberVO">
-SELECT MEMBER_ID, MEMBER_PW, MEMBER_NAME
+SELECT MEMBER_ID AS userId, MEMBER_PW AS userPass, MEMBER_NAME AS userName, 
+MEMBER_BIRTH AS userBirth, MEMBER_TEL AS userTel, MEMBER_MAIL AS userMail, MEMBER_ADDRESS AS userAddress
 FROM SAE_MEMBER
 WHERE MEMBER_ID = #{userId}
 AND MEMBER_PW = #{userPass}
@@ -41,7 +49,16 @@ AND MEMBER_PW = #{userPass}
 <update id="memberUpdate">
 UPDATE SAE_MEMBER SET
 MEMBER_PW=#{userPass},
-MEMBER_NAME=#{userName}
+MEMBER_TEL=#{userTel},
+MEMBER_MAIL=#{userMail},
+MEMBER_ADDRESS=#{userAddress}
+WHERE MEMBER_ID=#{userId}
+</update>
+
+<!-- 회원 임시비밀번호 발급 -->
+<update id="memberPWupdate">
+UPDATE SAE_MEMBER SET
+MEMBER_PW=#{userPass}
 WHERE MEMBER_ID=#{userId}
 </update>
 
@@ -49,7 +66,6 @@ WHERE MEMBER_ID=#{userId}
 <delete id="memberDelete">
 DELETE FROM SAE_MEMBER
 WHERE MEMBER_ID = #{userId}
-AND MEMBER_PW = #{userPass}
 </delete>
 
 

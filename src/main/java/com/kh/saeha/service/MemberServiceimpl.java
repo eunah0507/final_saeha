@@ -39,4 +39,21 @@ public class MemberServiceimpl implements MemberService{
 	public void memberDelete(MemberVO vo) throws Exception{
 		dao.memberDelete(vo);
 	}
+
+	@Override
+	public String Over(MemberVO vo) throws Exception {
+		//dao에서 받아온 기능을 service에서 사용합니다.
+		return dao.over(vo);
+	}
+
+	@Override
+	public MemberVO findfind(MemberVO vo) throws Exception {
+		//비밀번호찾기에서 ID, 이름, MAIL 받아오는 것
+		return dao.findfind(vo);
+	}
+
+	@Override
+	public void memberPWupdate(MemberVO vo) throws Exception {
+		dao.memberPWupdate(vo);
+	}
 }
